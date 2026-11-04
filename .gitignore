@@ -1,0 +1,8 @@
+dist
+node_modules
+*.tgz
+*.tsbuildinfo
+.n8n-local/
+.postman/
+postman/.dependencies/
+postman/*.ndjson

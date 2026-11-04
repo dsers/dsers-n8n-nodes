@@ -1,0 +1,8 @@
+simulation: dsers-mcp-node
+routing: path
+mocks:
+  - name: dsers-mcp
+    routeKey: dsers
+    origin:
+      - ai.dsers.com
+    path: postman/mocks/dsers-mcp/config.yaml

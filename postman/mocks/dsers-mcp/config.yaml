@@ -1,0 +1,8 @@
+version: 1
+name: dsers-mcp
+description: Synthetic DSers Streamable HTTP contract fixture; no real account data
+origin: ai.dsers.com
+interceptRequests: true
+scenarios:
+  - name: default
+    path: default.js

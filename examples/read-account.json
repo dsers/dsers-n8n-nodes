@@ -1,0 +1,60 @@
+{
+	"name": "DSers \u2014 Connect and Read Account",
+	"nodes": [
+		{
+			"parameters": {
+				"content": "## DSers MCP connection check\n\n1. Install n8n-nodes-dsers in a supported self-hosted instance, or use the local development preview.\n2. Create a DSers OAuth2 API credential and complete DSers consent.\n3. Assign the credential to Read DSers Account.\n4. Execute this workflow manually.\n\nThis example only calls get_account_profile with empty arguments. A DSers account, required read scopes (including plan:read), and eligible plan are required.\n\nThis package is not yet verified or published. It cannot yet be installed as a verified node on n8n Cloud.\n\nDSers: https://www.dsers.com/",
+				"height": 450,
+				"width": 440
+			},
+			"id": "setup-note",
+			"name": "Setup Instructions",
+			"type": "n8n-nodes-base.stickyNote",
+			"typeVersion": 1,
+			"position": [-440, -180]
+		},
+		{
+			"parameters": {},
+			"id": "manual-trigger",
+			"name": "Run Connection Check",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [80, 0]
+		},
+		{
+			"parameters": {
+				"resource": "tool",
+				"operation": "execute",
+				"toolName": "get_account_profile",
+				"arguments": "{}",
+				"options": {
+					"timeout": 60000
+				}
+			},
+			"id": "read-account",
+			"name": "Read DSers Account",
+			"type": "n8n-nodes-dsers.dsers",
+			"typeVersion": 1,
+			"position": [320, 0]
+		}
+	],
+	"connections": {
+		"Run Connection Check": {
+			"main": [
+				[
+					{
+						"node": "Read DSers Account",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"active": false,
+	"pinData": {},
+	"tags": []
+}

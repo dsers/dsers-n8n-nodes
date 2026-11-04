@@ -1,0 +1,23 @@
+purpose:
+  stands_in_for: DSers MCP Streamable HTTP POST endpoint, with synthetic tool definitions and results
+  unblocks: Repeatable node transport, pagination, SSE, error, and timeout verification without production credentials or writes
+assumptions:
+  - id: dsers-transport
+    status: supported
+    claim: The DSers endpoint uses JSON-RPC over Streamable HTTP; the client must initialize before discovering or calling tools.
+    reason: The existing DSers MCP BFF registers a stateless StreamableHTTP server; earlier production verification records successful initialize, tools/list, and tools/call. This fixture additionally exercises session headers without claiming DSers requires a session.
+    verification: Provider source and workspace production verification report reviewed on 2026-11-04. Node-specific HTTP simulation results are recorded in docs/VALIDATION.md after execution.
+    source: DSers MCP BFF internal/server/mcp.go; workspace docs/investigations/2026-11-04-mcp-production-channel-e2e.md; tests/http.sim.cjs
+    updated_at: '2026-11-04'
+  - id: node-oauth-flow
+    status: unknown
+    claim: The installed n8n version performs DCR, PKCE, token storage, and resource-bound refresh correctly for the custom DSers credential.
+    reason: The credential extends n8n OAuth2 and enables its discovery flow. Provider metadata and n8n source establish compatible features, but the MCP fixture does not implement or verify the real credential lifecycle.
+    verification: Read n8n OAuth service and public DSers authorization metadata on 2026-11-04. Real n8n browser consent, token issuance, and refresh remain release checks.
+    source: credentials/DsersOAuth2Api.credentials.ts; nodes/Dsers/transport.ts; https://ai.dsers.com/.well-known/oauth-authorization-server
+    updated_at: '2026-11-04'
+fingerprints:
+  - id: initial-local-development
+    date: '2026-11-04'
+    commit: Initial implementation; see repository history for the source revision
+    cli: Postman CLI 1.75.0
