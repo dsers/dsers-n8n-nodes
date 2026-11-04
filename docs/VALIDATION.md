@@ -55,3 +55,9 @@ The automated node tests use synthetic business data. Browser acceptance first h
 - Official `@n8n/scan-community-package@0.42.0` `analyzePackageByName('n8n-nodes-dsers', '0.1.0')` passed: provenance, attested source `0dad340`, downloaded npm artifact, and source/compiled analysis.
 - Public GitHub repository, README, and release-document URLs returned HTTP 200.
 - The logged-in n8n Creator Portal form was filled with the npm package URL and both author/official-representative declarations. Its pre-submit validation still reports "this package version was not published with provenance" and disables submission, despite the evidence above. Refreshing and reopening the form produced the same result. No successful submission or review has occurred. This may be propagation/cache behavior; its cause is unconfirmed. Retry after propagation before escalating to n8n with the evidence above.
+
+## Creator Portal blocker resolved and submission confirmed
+
+The earlier pre-submit warning was caused by the browser checking the bootstrap placeholder rather than the runtime version. Chrome DevTools showed an HTTP 404 request to `/-/npm/v1/attestations/n8n-nodes-dsers@0.0.0-stage`. The portal's public `C8P4ehKh.js` checks registry version/attestation endpoints directly from the browser and returns false for failed responses; this warning was not a server-side review rejection. Exact cache ownership was not independently proven.
+
+Entering the explicit version URL `https://www.npmjs.com/package/n8n-nodes-dsers/v/0.1.0` through normal input removed the warning and enabled **Submit for review**. Submission sent an ownership verification email to `chuchaoliang@dserspro.com`; the user entered the token and confirmed it themselves. The resulting page at `https://creators.n8n.io/nodes/n8n-nodes-dsers/integration` displayed **Automated review — IN PROGRESS**. The application is submitted; automated/manual approval and publication are not implied.
