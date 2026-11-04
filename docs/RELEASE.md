@@ -10,7 +10,7 @@ Public source repository: https://github.com/dsers/dsers-n8n-nodes. No npm relea
 - Import the example into a fresh workflow and run it with the user's credential. Review light/dark themes, tool selection, JSON input, and errors. This connection example alone is not a public-template submission.
 - Review scope UX: automatic discovery may request all advertised read/write scopes; do not describe the credential as read-only.
 - Run `npm ci`, `npm run check`, `npm run test:simulation`, the current n8n package scanner, and review `npm pack` contents.
-- Confirm MIT code licensing, brand use, support ownership (`support@dsers.com`), and matching GitHub/npm maintainer identity.
+- Confirm MIT code licensing, brand use, support ownership (`chuchaoliang@dserspro.com`), and matching GitHub/npm maintainer identity.
 
 ## Publishing
 

@@ -87,7 +87,7 @@ There are no runtime external dependencies beyond n8n's `n8n-workflow` peer. Run
 ## Support and license
 
 - Website: https://www.dsers.com/
-- Contact: support@dsers.com
+- Contact: chuchaoliang@dserspro.com
 - License: [MIT](LICENSE)
 - Source: https://github.com/dsers/dsers-n8n-nodes
 

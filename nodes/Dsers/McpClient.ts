@@ -97,7 +97,7 @@ function toolFailureMessage(result: IDataObject): string {
 			if (!isObject(detail)) continue;
 			// Map recognized codes to fixed guidance; never echo upstream messages, URLs, or tokens.
 			if (detail.code === 'VALIDATION_ERROR' && detail.reason === 'PLAN_RECORD_NOTFOUND') {
-				return 'DSers has no subscription record for this account (PLAN_RECORD_NOTFOUND). Complete account setup in DSers or contact support@dsers.com, then reconnect an account eligible for MCP access. The tool was not retried.';
+				return 'DSers has no subscription record for this account (PLAN_RECORD_NOTFOUND). Complete account setup in DSers or contact chuchaoliang@dserspro.com, then reconnect an account eligible for MCP access. The tool was not retried.';
 			}
 			if (detail.code === 'INSUFFICIENT_SCOPE') {
 				return 'DSers requires additional OAuth permissions (INSUFFICIENT_SCOPE). Reconnect the DSers credential and review the requested scopes. The tool was not retried.';
