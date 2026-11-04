@@ -6,4 +6,6 @@
 - Add OAuth2 discovery and Dynamic Client Registration using n8n credentials.
 - Preserve successful MCP results and original tool definitions.
 - Support finite JSON/POST SSE, pagination, timeouts, and error handling.
+- Explain missing plan records, permission failures, and plan restrictions without exposing upstream error text.
+- Preserve local preview credentials and workflows across container restarts.
 - Include tests, a local Postman simulation, a connection example, and release preparation.

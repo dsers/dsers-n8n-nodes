@@ -41,6 +41,10 @@ http.createServer(async (req, res) => {
 		return;
 	}
 	if (body.method === 'tools/call') {
+		if (req.headers['x-test-plan-record-missing'] === 'true') {
+			json({ isError: true, content: [{ type: 'text', text: JSON.stringify({ code: 'VALIDATION_ERROR', reason: 'PLAN_RECORD_NOTFOUND', message: 'Synthetic private upstream message' }) }] });
+			return;
+		}
 		if (req.headers['x-test-delay']) await new Promise((resolve) => setTimeout(resolve, 1500));
 		const result = {
 			content: [{ type: 'text', text: JSON.stringify({ fixture: true, received: body.params.arguments }) }],

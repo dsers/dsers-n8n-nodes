@@ -101,3 +101,16 @@ test('HTTP simulation: request timeout is bounded and not retried', async () => 
 	await assert.rejects(new Dsers().execute.call(ctx), /Could not complete the DSers request/);
 	assert.equal(ctx.calls.filter((method) => method === 'tools/call').length, 1);
 });
+
+test('HTTP simulation: missing plan record gives actionable guidance without replay', async () => {
+	const ctx = context(
+		{ operation: 'execute', toolName: 'get_account_profile', arguments: '{}' },
+		{ 'x-test-plan-record-missing': 'true' },
+	);
+	await assert.rejects(new Dsers().execute.call(ctx), (error) => {
+		assert.match(error.message, /no subscription record.*PLAN_RECORD_NOTFOUND/);
+		assert.doesNotMatch(error.message, /private upstream message/);
+		return true;
+	});
+	assert.equal(ctx.calls.filter((method) => method === 'tools/call').length, 1);
+});

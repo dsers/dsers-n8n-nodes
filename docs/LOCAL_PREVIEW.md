@@ -11,11 +11,14 @@ npm ci
 npm run build
 mkdir -p .n8n-local
 npm pack --pack-destination .n8n-local
+docker volume create dsers-n8n-preview-data
 docker run --rm --name dsers-n8n-preview \
   -p 127.0.0.1:5679:5678 \
+  -e N8N_EDITOR_BASE_URL=http://127.0.0.1:5679 \
   -e N8N_SECURE_COOKIE=false \
   -e N8N_DIAGNOSTICS_ENABLED=false \
   -e N8N_PERSONALIZATION_ENABLED=false \
+  -v dsers-n8n-preview-data:/home/node/.n8n \
   -v "$PWD/.n8n-local/n8n-nodes-dsers-0.1.0.tgz:/tmp/dsers-node.tgz:ro" \
   --entrypoint /bin/sh \
   docker.n8n.io/n8nio/n8n:2.46.4 \
@@ -24,4 +27,4 @@ docker run --rm --name dsers-n8n-preview \
 
 Open `http://127.0.0.1:5679`, complete local owner setup, create a workflow, and search for **DSers MCP** or import `examples/read-account.json`. Create a **DSers OAuth2 API** credential and personally complete DSers consent. The production MCP URL is fixed and needs a real account. Never paste tokens into node fields.
 
-The loopback-only HTTP preview disables secure cookies. It has no persistent data volume: removing the container removes its settings and credentials. Stop it with Ctrl+C or `docker stop dsers-n8n-preview`. Rebuild, repack, and restart to pick up changes. See [VALIDATION.md](VALIDATION.md) for checks actually performed; instructions alone are not a claim that OAuth or UI testing passed.
+The loopback-only HTTP preview disables secure cookies. The named Docker volume retains settings, encrypted credentials, the encryption key, workflows, and execution data when the container stops. Keep it private and do not upload it. The editor base URL ensures the OAuth callback matches the externally reachable port 5679. Stop it with Ctrl+C or `docker stop dsers-n8n-preview`. Rebuild, repack, and restart to pick up changes. See [VALIDATION.md](VALIDATION.md) for checks actually performed; instructions alone are not a claim that OAuth or UI testing passed.

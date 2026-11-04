@@ -161,3 +161,36 @@ test('network failures do not expose credential-bearing error objects', async ()
 		return true;
 	});
 });
+
+for (const [code, reason, pattern] of [
+	['VALIDATION_ERROR', 'PLAN_RECORD_NOTFOUND', /no subscription record.*PLAN_RECORD_NOTFOUND/],
+	['INSUFFICIENT_SCOPE', undefined, /additional OAuth permissions/],
+	['PLAN_RESTRICTION', undefined, /subscription or Credits entitlement/],
+	['VALIDATION_ERROR', 'UNRECOGNIZED_REASON', /tool reported a failure/],
+	['UNKNOWN_CODE', 'PLAN_RECORD_NOTFOUND', /tool reported a failure/],
+]) {
+	test(`structured business error ${code}/${reason} provides safe recovery without retry`, async () => {
+		const { client, calls } = fixture((body) =>
+			ok(body, {
+				isError: true,
+				content: [
+					{
+						type: 'text',
+						text: JSON.stringify({
+							code,
+							reason,
+							message: 'Authorization: synthetic-secret',
+							hint: 'https://example.invalid/?token=synthetic-secret',
+						}),
+					},
+				],
+			}),
+		);
+		await assert.rejects(client.callTool('fixture_tool', {}), (error) => {
+			assert.match(error.message, pattern);
+			assert.doesNotMatch(error.message, /synthetic-secret|example.invalid/);
+			return true;
+		});
+		assert.equal(calls.filter((call) => call.body.method === 'tools/call').length, 1);
+	});
+}

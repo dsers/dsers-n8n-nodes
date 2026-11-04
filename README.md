@@ -62,7 +62,7 @@ Use **Get Schema** for the current tool's fields and constraints. Arguments reta
 
 Execute returns the original successful MCP result object as one n8n item, preserving `content`, `structuredContent`, `_meta`, and other fields. Text remains text; schemas and binary-content representation are not transformed.
 
-HTTP errors, JSON-RPC errors, and `isError: true` results fail the node. n8n's **On Error → Continue** setting emits a safe error item and continues with later inputs. Outputs retain input-item pairing.
+HTTP errors, JSON-RPC errors, and `isError: true` results fail the node. Recognized missing-plan-record, insufficient-scope, and subscription/Credits errors provide fixed recovery guidance without echoing upstream messages. n8n's **On Error → Continue** setting emits a safe error item and continues with later inputs. Outputs retain input-item pairing.
 
 The application does not retry tool calls, recreate expired sessions, or replay timeouts. n8n's OAuth helper may refresh and retry an unauthorized request. Workflow-level **Retry On Fail** and manual reruns are separate features: configure them deliberately for tools that modify products, orders, or settings. A write timeout may leave its outcome unknown.
 

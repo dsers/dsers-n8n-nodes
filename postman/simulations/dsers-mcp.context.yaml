@@ -10,11 +10,18 @@ assumptions:
     source: DSers MCP BFF internal/server/mcp.go; workspace docs/investigations/2026-11-04-mcp-production-channel-e2e.md; tests/http.sim.cjs
     updated_at: '2026-11-04'
   - id: node-oauth-flow
-    status: unknown
+    status: supported
     claim: The installed n8n version performs DCR, PKCE, token storage, and resource-bound refresh correctly for the custom DSers credential.
-    reason: The credential extends n8n OAuth2 and enables its discovery flow. Provider metadata and n8n source establish compatible features, but the MCP fixture does not implement or verify the real credential lifecycle.
-    verification: Read n8n OAuth service and public DSers authorization metadata on 2026-11-04. Real n8n browser consent, token issuance, and refresh remain release checks.
+    reason: The credential extends n8n OAuth2 and enables its discovery flow. The synthetic fixture does not implement OAuth. Independent real-host acceptance established connected PKCE credentials, 60-tool discovery, successful account/store calls, and host-managed refresh after an injected invalid access token.
+    verification: Read n8n OAuth service and public DSers authorization metadata on 2026-11-04. The installed host showed a connected PKCE credential and returned 60 tools in a real Get Many execution. Initial account/store reads failed with PLAN_RECORD_NOTFOUND; after account reconnection both succeeded through the actual n8n engine. An injected invalid local access token caused host-managed refresh, token persistence, and successful account/store reads. Resource and configured scope were unchanged. Raw browser PKCE traffic was not independently captured; see docs/VALIDATION.md for boundaries.
     source: credentials/DsersOAuth2Api.credentials.ts; nodes/Dsers/transport.ts; https://ai.dsers.com/.well-known/oauth-authorization-server
+    updated_at: '2026-11-04'
+  - id: missing-plan-record
+    status: supported
+    claim: A structured VALIDATION_ERROR with reason PLAN_RECORD_NOTFOUND is reported using fixed account-setup guidance without echoing upstream message or hint fields.
+    reason: A real read-only attempt returned this reason before account/store business reads. The synthetic fixture preserves the error envelope shape without including account data.
+    verification: npm run check passed 30 tests; npm run test:simulation passed 10 tests and observed 30 requests on 2026-11-04. The fixture does not establish successful real business access.
+    source: nodes/Dsers/McpClient.ts; tests/mcp-client.test.cjs; tests/http.sim.cjs; docs/VALIDATION.md
     updated_at: '2026-11-04'
 fingerprints:
   - id: initial-local-development

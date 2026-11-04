@@ -84,6 +84,32 @@ function parseEnvelope(body: unknown, contentType: string, id: number, node: INo
 	return response.result;
 }
 
+function toolFailureMessage(result: IDataObject): string {
+	if (Array.isArray(result.content)) {
+		for (const item of result.content) {
+			if (!isObject(item) || item.type !== 'text' || typeof item.text !== 'string') continue;
+			let detail: unknown;
+			try {
+				detail = JSON.parse(item.text) as unknown;
+			} catch {
+				continue;
+			}
+			if (!isObject(detail)) continue;
+			// Map recognized codes to fixed guidance; never echo upstream messages, URLs, or tokens.
+			if (detail.code === 'VALIDATION_ERROR' && detail.reason === 'PLAN_RECORD_NOTFOUND') {
+				return 'DSers has no subscription record for this account (PLAN_RECORD_NOTFOUND). Complete account setup in DSers or contact support@dsers.com, then reconnect an account eligible for MCP access. The tool was not retried.';
+			}
+			if (detail.code === 'INSUFFICIENT_SCOPE') {
+				return 'DSers requires additional OAuth permissions (INSUFFICIENT_SCOPE). Reconnect the DSers credential and review the requested scopes. The tool was not retried.';
+			}
+			if (detail.code === 'PLAN_RESTRICTION') {
+				return 'The DSers subscription or Credits entitlement does not allow this operation (PLAN_RESTRICTION). Check the account plan and Credits in DSers before running again. The tool was not retried.';
+			}
+		}
+	}
+	return 'The DSers tool reported a failure. Check its required permissions, plan, and input arguments. The tool was not retried.';
+}
+
 /** A bounded Streamable HTTP client for DSers; no filesystem, environment, or SDK access. */
 export class McpClient {
 	private requestId = 0;
@@ -193,9 +219,7 @@ export class McpClient {
 		await this.connect();
 		const result = await this.rpc('tools/call', { name, arguments: args });
 		if (result.isError === true) {
-			throw new McpError(
-				'The DSers tool reported a failure. Check its required permissions, plan, and input arguments. The tool was not retried.',
-			);
+			throw new McpError(toolFailureMessage(result));
 		}
 		return result;
 	}
