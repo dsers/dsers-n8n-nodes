@@ -26,7 +26,8 @@ jobs:
       - name: Verify release version
         env:
           RELEASE_VERSION: ${{ inputs.version }}
-        run: node -e 'const v = require("./package.json").version; if (process.env.GITHUB_EVENT_NAME === "workflow_dispatch" ? process.env.RELEASE_VERSION !== v : process.env.GITHUB_REF_NAME !== "v" + v) process.exit(1)'
+        run: |
+          node -e 'const v = require("./package.json").version; if (process.env.GITHUB_EVENT_NAME === "workflow_dispatch" ? process.env.RELEASE_VERSION !== v : process.env.GITHUB_REF_NAME !== "v" + v) process.exit(1)'
       - name: Publish with provenance
         run: npm publish --provenance --access public
         env:
