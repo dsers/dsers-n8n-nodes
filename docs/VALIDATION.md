@@ -1,6 +1,6 @@
 # Validation record
 
-Date: 2026-11-04. Package: `n8n-nodes-dsers@0.1.0`. Branch: `codex/initial-dsers-node`. Initial implementation prepared for the public source repository https://github.com/dsers/dsers-n8n-nodes; no npm publication or n8n submission.
+Date: 2026-11-04. Package: `n8n-nodes-dsers@0.1.0`. Branch: `codex/initial-dsers-node`. Initial implementation prepared for the public source repository https://github.com/dsers/dsers-n8n-nodes; no runtime npm release or n8n submission at the time of these local checks.
 
 ## Automated checks
 
@@ -39,3 +39,10 @@ The rebuilt `0.1.0` tarball was reinstalled by restarting the persistent preview
 - Publish through GitHub Actions with provenance, then run the full published-package scanner and submit to n8n. No approval is implied by local checks.
 
 The automated node tests use synthetic business data. Browser acceptance first hit a missing plan record, then real host execution succeeded for production read-only account/store calls and repeated them after OAuth refresh; no business writes were executed. The example is a connection check, not a submitted public workflow template. n8n Cloud availability and all-version compatibility are not established.
+
+## Publisher setup
+
+- npm CLI authenticated as `dsers`; account 2FA is enabled for authorization and publishing. Author and support contact: `chuchaoliang@dserspro.com`.
+- GitHub CI passed for `98c92a6` and `fd622fa`, including clean dependency install, typecheck, strict lint, build, 30 tests, and pack dry-run.
+- A metadata-only `0.0.0-bootstrap.0` package was staged with the `bootstrap` tag to create the new package record. npm exposed its `0.0.0-stage` placeholder; the staged metadata version was not approved.
+- The user completed 2FA and npm created the trusted GitHub publisher for `dsers/dsers-n8n-nodes`, workflow `publish.yml`. No npm token was copied into source or GitHub secrets. Runtime publication with provenance and the published-package scanner remain the next checks.

@@ -1,6 +1,6 @@
 # Release and n8n verification preparation
 
-Public source repository: https://github.com/dsers/dsers-n8n-nodes. No npm release or n8n submission has been made.
+Public source repository: https://github.com/dsers/dsers-n8n-nodes. The first runtime release and n8n submission are tracked in VALIDATION.md.
 
 ## Before publication
 
@@ -16,7 +16,7 @@ Public source repository: https://github.com/dsers/dsers-n8n-nodes. No npm relea
 
 The included workflow publishes on a `v*` version tag, verifies the tag matches `package.json`, runs checks, and uses `npm publish --provenance --access public`. It grants `contents: read` and `id-token: write`.
 
-Configure npm Trusted Publishing for the approved repository and `publish.yml`. A new package may need its first publication before a Trusted Publisher can be configured. Follow npm's current authorized first-publication setup. If a granular token is necessary, store it only in the repository's `NPM_TOKEN` secret, never in source or a workflow export.
+npm Trusted Publishing is configured for `dsers/dsers-n8n-nodes` and `publish.yml` under npm maintainer `dsers`. The first trust request returned 404 because the package did not exist. A metadata-only `0.0.0-bootstrap.0` was submitted through `npm stage publish --tag=bootstrap`; npm created its public `0.0.0-stage` placeholder. The staged metadata package is not the runtime release and should not be approved. After package creation, the user completed npm 2FA and the trust configuration succeeded. Runtime versions must be built and published through GitHub Actions with provenance. No granular npm token was added to the repository.
 
 Local `npm pack` creates a review artifact; it does not publish. GitHub creation, push, npm release, and submission remain separate steps.
 
