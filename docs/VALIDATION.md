@@ -1,6 +1,6 @@
 # Validation record
 
-Date: 2026-11-04. Package: `n8n-nodes-dsers@0.1.0`. Branch: `codex/initial-dsers-node`. Initial implementation prepared for the public source repository https://github.com/dsers/dsers-n8n-nodes; no runtime npm release or n8n submission at the time of these local checks.
+Date: 2026-11-04. Package: `n8n-nodes-dsers@0.1.0`. Branch: `codex/initial-dsers-node`. Initial implementation prepared for the public source repository https://github.com/dsers/dsers-n8n-nodes; runtime `0.1.0` is now published with provenance; n8n submission remains blocked as recorded below.
 
 ## Automated checks
 
@@ -46,3 +46,12 @@ The automated node tests use synthetic business data. Browser acceptance first h
 - GitHub CI passed for `98c92a6` and `fd622fa`, including clean dependency install, typecheck, strict lint, build, 30 tests, and pack dry-run.
 - A metadata-only `0.0.0-bootstrap.0` package was staged with the `bootstrap` tag to create the new package record. npm exposed its `0.0.0-stage` placeholder; the staged metadata version was not approved.
 - The user completed 2FA and npm created the trusted GitHub publisher for `dsers/dsers-n8n-nodes`, workflow `publish.yml`. No npm token was copied into source or GitHub secrets. Runtime publication with provenance and the published-package scanner remain the next checks.
+
+## Published runtime verification
+
+- GitHub Actions Publish run [41817881490](https://github.com/dsers/dsers-n8n-nodes/actions/runs/41817881490) succeeded on commit `0dad340bb1a9c74e0f74676fc7b466fa98a16468`. Clean install, strict checks, 30 tests, release-version verification, and `npm publish --provenance --access public` all passed. The run was dispatched from `main`; the earlier `v0.1.0` tag points at `0f3d42e` and is not the attested build commit. The intervening changes only concern the release workflow.
+- npm accepted `n8n-nodes-dsers@0.1.0` at 2026-11-04 11:00 UTC. Processing initially delayed registry availability. The final `latest` tag is `0.1.0`; author DSers and maintainer dsers both carry `chuchaoliang@dserspro.com`. npm identifies GitHub Actions as the trusted publisher.
+- The registry contains SLSA provenance at https://registry.npmjs.org/-/npm/v1/attestations/n8n-nodes-dsers@0.1.0, with repository `https://github.com/dsers/dsers-n8n-nodes`, workflow `.github/workflows/publish.yml`, and ref `refs/heads/main`. Runtime tarball SHA1: `d970779d3c4bc95d0932dcd91828968a6f43c630`.
+- Official `@n8n/scan-community-package@0.42.0` `analyzePackageByName('n8n-nodes-dsers', '0.1.0')` passed: provenance, attested source `0dad340`, downloaded npm artifact, and source/compiled analysis.
+- Public GitHub repository, README, and release-document URLs returned HTTP 200.
+- The logged-in n8n Creator Portal form was filled with the npm package URL and both author/official-representative declarations. Its pre-submit validation still reports "this package version was not published with provenance" and disables submission, despite the evidence above. Refreshing and reopening the form produced the same result. No successful submission or review has occurred. This may be propagation/cache behavior; its cause is unconfirmed. Retry after propagation before escalating to n8n with the evidence above.

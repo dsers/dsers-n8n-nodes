@@ -1,6 +1,6 @@
 # Release and n8n verification preparation
 
-Public source repository: https://github.com/dsers/dsers-n8n-nodes. The first runtime release and n8n submission are tracked in VALIDATION.md.
+Public source repository: https://github.com/dsers/dsers-n8n-nodes. `n8n-nodes-dsers@0.1.0` is published through GitHub Actions with provenance. n8n submission is tracked in VALIDATION.md.
 
 ## Before publication
 
